@@ -19,10 +19,14 @@ public class Client {
         socket = new Socket(InetAddress.getLocalHost(), 1600);
         System.out.println("Demande de connexion");
 
+        out = new PrintWriter(socket.getOutputStream());
+        out.println("MOON?");
+        out.flush();
+
         in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
         String message_distant = in.readLine();
-        System.out.println(message_distant);
-        
+        System.out.println("Message reçu : " + message_distant);
+
         socket.close();
     
     }catch (UnknownHostException e) {
