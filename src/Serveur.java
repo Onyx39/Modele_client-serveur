@@ -12,49 +12,61 @@ import java.time.LocalTime;
 
 public class Serveur {
 
+    static ServerSocket socketserver;
+    static Socket socketduserveur;
+
     public static void main(String[] zero) {
 
-        ServerSocket socketserver;
-        Socket socketduserveur;
+        /*ServerSocket socketserver;
+        Socket socketduserveur;*/
         BufferedReader in;
         PrintWriter out;
 
     try { 
 
         socketserver = new ServerSocket(1600);
-        System.out.println("Le serveur est à l'écoute du port " + socketserver.getLocalPort());
+        System.out.println("Serveur actif (port " + socketserver.getLocalPort() + ')');
         socketduserveur = socketserver.accept();
         in = new BufferedReader(new InputStreamReader((socketduserveur.getInputStream())));
         String message_recu = in.readLine();
-        //System.out.println("message_recu : " + message_recu);
-        if (message_recu.equals("DATE?")) {
-            System.out.println("Un zéro s'est connecté !");
-            out = new PrintWriter(socketduserveur.getOutputStream());
-            out.println(LocalDate.now().toString());
+        if (!message_recu.equals("Hello")) {
+            out = new PrintWriter((socketduserveur.getOutputStream()));
+            out.println("STOP");
             out.flush();
+            System.out.println("Vous n'avez pas serré la main, fin de communication");
+            endOfConnection();
+            System.exit(0);
         }
 
-        if (message_recu.equals("HOUR?")) {
-            System.out.println("Un zéro s'est connecté !");
-            out = new PrintWriter(socketduserveur.getOutputStream());
-            out.println(LocalTime.now().toString());
-            out.flush();
+        out = new PrintWriter((socketduserveur.getOutputStream()));
+        out.println("Hello and welcome, connection accepted");
+        System.out.println("Un client s'est connecté\n");
+        out.flush();
+
+        while (!message_recu.equals("STOP") || message_recu == null) {
+            in = new BufferedReader(new InputStreamReader((socketduserveur.getInputStream())));
+            message_recu = in.readLine();
+            System.out.println(message_recu);
+
         }
 
-        if (message_recu.equals("MOON?")) {
-            System.out.println("Un zéro s'est connecté !");
-            out = new PrintWriter(socketduserveur.getOutputStream());
-            out.println("I DON'T KNOW");
-            out.flush();
-        }
+
+        out = new PrintWriter((socketduserveur.getOutputStream()));
+        out.println("STOP");
+        out.flush();
         
-        socketserver.close();
-        socketduserveur.close();
+        endOfConnection();
 
 
     }catch (IOException e) {
         e.printStackTrace();
     }
 
+    }
+
+    static void endOfConnection () throws IOException {
+        System.out.println("\nEND OF CONNECTION \n");
+        socketserver.close();
+        socketduserveur.close();
     }
 }
