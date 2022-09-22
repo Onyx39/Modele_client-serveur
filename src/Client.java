@@ -28,17 +28,31 @@ public class Client {
 
         in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
         String message_distant = in.readLine();
-        if (message_distant.equals("Hello and welcome, connection accepted")) {
+        System.out.println(message_distant);
+        
+        /*
+        if (message_distant.equals("Hello and welcome, connection accepted\n")) {
             System.out.println("\nCONFIRMATION DE CONNECTION\n");
         }
         else {endOfConnection(); System.exit(0);}
+        */
+
+        out = new PrintWriter(socket.getOutputStream());
+        Scanner sc = new Scanner(System.in);   
+        String new_message = sc.nextLine(); 
+        out.println(new_message);
+        out.flush();
+
+        in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
+        message_distant = in.readLine();
+        System.out.println(message_distant);
 
         for (int i=0; i<10; i++) {
 
             out = new PrintWriter(socket.getOutputStream());
-            Scanner sc = new Scanner(System.in); //System.in is a standard input stream  
+            sc = new Scanner(System.in); //System.in is a standard input stream  
             //System.out.print("Enter a string: ");  
-            String new_message = sc.nextLine(); 
+            new_message = sc.nextLine(); 
             //sc.close(); 
             out.println(new_message);
             out.flush();

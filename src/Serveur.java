@@ -29,6 +29,8 @@ public class Serveur {
         socketduserveur = socketserver.accept();
         in = new BufferedReader(new InputStreamReader((socketduserveur.getInputStream())));
         String message_recu = in.readLine();
+        //System.out.println(message_recu);
+        /*
         if (!message_recu.equals("Hello")) {
             out = new PrintWriter((socketduserveur.getOutputStream()));
             out.println("STOP");
@@ -36,12 +38,17 @@ public class Serveur {
             System.out.println("Vous n'avez pas serré la main, fin de communication");
             endOfConnection();
             System.exit(0);
-        }
+        }*/
 
         out = new PrintWriter((socketduserveur.getOutputStream()));
-        out.println("Hello and welcome, connection accepted");
-        System.out.println("Un client s'est connecté\n");
+        out.println("Hello and welcome, please enter your pseudo");
+        //System.out.println("Un client s'est connecté\n");
         out.flush();
+        in = new BufferedReader(new InputStreamReader((socketduserveur.getInputStream())));
+        message_recu = in.readLine();
+        out.println("Nice to meet you " + message_recu + ", I am listening");
+        out.flush();
+
 
         while (!message_recu.equals("STOP") || message_recu == null) {
             in = new BufferedReader(new InputStreamReader((socketduserveur.getInputStream())));
