@@ -56,6 +56,9 @@ public class Client {
             //sc.close(); 
             out.println(new_message);
             out.flush();
+            in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
+            message_distant = in.readLine();
+            System.out.println(message_distant);
             if (new_message.equals("STOP")) {endOfConnection(); System.exit(0);}
     
             TimeUnit.SECONDS.sleep(1);

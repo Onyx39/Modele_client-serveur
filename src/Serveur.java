@@ -46,6 +46,7 @@ public class Serveur {
         out.flush();
         in = new BufferedReader(new InputStreamReader((socketduserveur.getInputStream())));
         message_recu = in.readLine();
+        System.out.println(message_recu + " s'est connecté");
         out.println("Nice to meet you " + message_recu + ", I am listening");
         out.flush();
 
@@ -53,7 +54,24 @@ public class Serveur {
         while (!message_recu.equals("STOP") || message_recu == null) {
             in = new BufferedReader(new InputStreamReader((socketduserveur.getInputStream())));
             message_recu = in.readLine();
-            System.out.println(message_recu);
+            //System.out.println(message_recu);
+            if (message_recu.equals("DATE?")) {
+                out = new PrintWriter(socketduserveur.getOutputStream());
+                out.println(LocalDate.now().toString());
+                out.flush();
+            }
+    
+            else { if (message_recu.equals("HOUR?")) {
+                out = new PrintWriter(socketduserveur.getOutputStream());
+                out.println(LocalTime.now().toString().substring(0, 8));
+                out.flush();
+            }
+    
+            else { if (!message_recu.equals("STOP")) {
+                out = new PrintWriter(socketduserveur.getOutputStream());
+                out.println("I DON'T UNDERSTAND");
+                out.flush();
+            }}}
 
         }
 
