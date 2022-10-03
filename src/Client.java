@@ -23,7 +23,7 @@ public class Client {
         //System.out.println("Demande de connexion");
 
         out = new PrintWriter(socket.getOutputStream());
-        out.println("Hello");
+        out.println("v");
         out.flush();
 
         in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
@@ -42,10 +42,18 @@ public class Client {
         String new_message = sc.nextLine(); 
         out.println(new_message);
         out.flush();
+        sc.close();
 
         in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
         message_distant = in.readLine();
         System.out.println(message_distant);
+
+        out = new PrintWriter(socket.getOutputStream());
+        Scanner sc2 = new Scanner(System.in);   
+        String new_message2 = sc2.nextLine(); 
+        out.println(new_message2);
+        out.flush();
+        sc2.close();
 
         for (int i=0; i<10; i++) {
 
